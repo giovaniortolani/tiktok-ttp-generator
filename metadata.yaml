@@ -15,5 +15,5 @@
 homepage: "https://www.linkedin.com/in/giovani-ortolani-barbosa/"
 documentation: "https://github.com/giovaniortolani/tiktok-ttp-generator?tab=readme-ov-file#tiktok-_ttp-generator"
 versions:
-  - sha: 13f13c1f619c5ef7db475132cb93add25f9f950d
+  - sha: 17fb6e1d8a3381a0349f48ac044266ab0622c3e4
     changeNotes: Initial Version
