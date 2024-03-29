@@ -30,7 +30,9 @@ ___INFO___
   "securityGroups": [],
   "displayName": "TikTok _ttp Generator",
   "categories": [
-    "UTILITY"
+    "UTILITY",
+    "ADVERTISING",
+    "CONVERSIONS"
   ],
   "__wm": "VGVtcGxhdGUtQXV0aG9yX0ZhY2Vib29rRmJwR2VuZXJhdG9yLVNpbW8tQWhhdmE\u003d",
   "description": "This variable generates a value that can be used for TikTok\u0027s _ttp cookie.",
