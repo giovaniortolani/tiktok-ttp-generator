@@ -15,20 +15,18 @@
 ___INFO___
 
 {
-  "displayName": "Example Template",
-  "description": "This is an example template. For more information, visit https://developers.google.com/tag-manager/templates",
-  "categories": ["AFFILIATE_MARKETING", "ADVERTISING"],
-  "securityGroups": [],
+  "type": "MACRO",
   "id": "cvt_temp_public_id",
-  "type": "TAG",
   "version": 1,
-  "brand": {
-    "thumbnail": "",
-    "displayName": "",
-    "id": "brand_dummy"
-  },
+  "securityGroups": [],
+  "displayName": "TikTok _ttp Generator",
+  "categories": [
+    "UTILITY"
+  ],
+  "__wm": "VGVtcGxhdGUtQXV0aG9yX0ZhY2Vib29rRmJwR2VuZXJhdG9yLVNpbW8tQWhhdmE\u003d",
+  "description": "This variable generates a value that can be used for TikTok\u0027s _ttp cookie.",
   "containerContexts": [
-    "WEB"
+    "SERVER"
   ]
 }
 
@@ -37,45 +35,99 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "help": "Enter an example measurement ID. The value can be any character. This is only an example.",
-    "displayName": "Example Measurement ID",
-    "defaultValue": "foobarbaz1234",
-    "name": "MeasurementID",
-    "type": "TEXT"
+    "type": "LABEL",
+    "name": "label1",
+    "displayName": "Use this template to generate a new \u003cstrong\u003e_ttp\u003c/strong\u003e cookie value used by TikTok. You can use the \u003ca href\u003d\"https://tagmanager.google.com/gallery/#/owners/gtm-templates-simo-ahava/templates/cookie-monster\"\u003eCookie Monster\u003c/a\u003e tag template, for example, to set the cookie in the server response.\u003cbr\u003e\u003cbr\u003e"
+  },
+  {
+    "type": "CHECKBOX",
+    "name": "returnExisting",
+    "checkboxText": "Return existing _ttp cookie value if available",
+    "simpleValueType": true,
+    "help": "Check this box to first see if _ttp has already been set. If it has, return its value instead of generating a new one."
   }
 ]
 
 
-___WEB_PERMISSIONS___
+___SANDBOXED_JS_FOR_SERVER___
+
+const computeEffectiveTldPlusOne = require('computeEffectiveTldPlusOne');
+const generateRandom = require('generateRandom');
+const getCookieValues = require('getCookieValues');
+const getEventData = require('getEventData');
+const getRequestHeader = require('getRequestHeader');
+
+const ttp = getCookieValues('_ttp');
+const domain = getEventData('page_location') || getRequestHeader('referer');
+const subdomainIndex = domain ? computeEffectiveTldPlusOne(domain).split('.').length - 1 : 1;
+
+if (data.returnExisting && ttp.length) return ttp[0];
+
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+let result = '';
+for (let i = 0; i < 27; i++) {
+  const randomIndex = generateRandom(0, characters.length - 1);
+  result += characters.charAt(randomIndex);
+}
+return result;
+
+
+___SERVER_PERMISSIONS___
 
 [
   {
     "instance": {
       "key": {
-        "publicId": "logging",
+        "publicId": "read_request",
         "versionId": "1"
       },
       "param": [
         {
-          "key": "environments",
+          "key": "headerWhitelist",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "headerName"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "referer"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "headersAllowed",
+          "value": {
+            "type": 8,
+            "boolean": true
+          }
+        },
+        {
+          "key": "requestAccess",
           "value": {
             "type": 1,
-            "string": "debug"
+            "string": "specific"
           }
-        }
-      ]
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "get_referrer",
-        "versionId": "1"
-      },
-      "param": [
+        },
         {
-          "key": "urlParts",
+          "key": "headerAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "queryParameterAccess",
           "value": {
             "type": 1,
             "string": "any"
@@ -83,28 +135,85 @@ ___WEB_PERMISSIONS___
         }
       ]
     },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "read_event_data",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "keyPatterns",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "page_location"
+              }
+            ]
+          }
+        },
+        {
+          "key": "eventDataAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "cookieAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "cookieNames",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "_ttp"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
     "isRequired": true
   }
 ]
 
 
-___SANDBOXED_JS_FOR_WEB_TEMPLATE___
+___TESTS___
 
-// Enter your template code here.
-const queryPermission = require('queryPermission');
-const getReferrerUrl = require('getReferrerUrl');
-let referrer;
-if (queryPermission('get_referrer', 'query')) {
-  referrer = getReferrerUrl('queryParams');
-}
-
-var log = require('logToConsole');
-log('data =', data);
-
-// Call data.gtmOnSuccess when the tag is finished.
-data.gtmOnSuccess();
+scenarios: []
 
 
 ___NOTES___
 
-Created on 9/2/2019, 1:02:37 PM
+Created on 09/11/2021, 11:46:23
