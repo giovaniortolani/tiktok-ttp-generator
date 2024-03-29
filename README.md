@@ -1,5 +1,8 @@
-# example-community-template
+# TikTok _ttp Generator
 
-The example-community-template project is an example of a Google Tag Manager [Community Template Gallery template repository](https://support.google.com/tagmanager/answer/9454109) repository that can be used as a template to generate new community template repositories.
+Generates a value that can be used for TikTok's [`_ttp` cookie](https://business-api.tiktok.com/portal/docs?id=1771100936446977). It also gives the option to return the existing value of this cookie.
 
-To submit your own template, see the [detailed instructions on how to submit templates to the Community Template Gallery](https://developers.google.com/tag-manager/templates/gallery).
+This is a fork of [Facebook _fbc Generator](https://github.com/gtm-templates-simo-ahava/facebook-fbc-generator).
+
+## Author(s)
+[Giovani Ortolani Barbosa](https://www.linkedin.com/in/giovani-ortolani-barbosa/)
