@@ -37,7 +37,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "label1",
-    "displayName": "Use this template to generate a new \u003cstrong\u003e_ttp\u003c/strong\u003e cookie value used by TikTok. You can use the \u003ca href\u003d\"https://tagmanager.google.com/gallery/#/owners/gtm-templates-simo-ahava/templates/cookie-monster\"\u003eCookie Monster\u003c/a\u003e tag template, for example, to set the cookie in the server response.\u003cbr\u003e\u003cbr\u003e"
+    "displayName": "Use this template to generate a new \u003cstrong\u003e_ttp\u003c/strong\u003e cookie value used by TikTok (\u003ca href\u003d\"https://business-api.tiktok.com/portal/docs?id\u003d1771100936446977\"\u003ereference\u003c/a\u003e). You can use the \u003ca href\u003d\"https://tagmanager.google.com/gallery/#/owners/gtm-templates-simo-ahava/templates/cookie-monster\"\u003eCookie Monster\u003c/a\u003e tag template, for example, to set the cookie in the server response.\u003cbr\u003e\u003cbr\u003e"
   },
   {
     "type": "CHECKBOX",
