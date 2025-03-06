@@ -13,7 +13,9 @@
 # limitations under the License.
 
 homepage: "https://www.linkedin.com/in/giovani-ortolani-barbosa/"
-documentation: "https://github.com/giovaniortolani/tiktok-ttp-generator?tab=readme-ov-file#tiktok-_ttp-generator"
+documentation: "https://github.com/giovaniortolani/tiktok-ttp-generator"
 versions:
+  - sha: fc85c72916cd123836d3b72d79406fddc68ab2a1
+    changeNotes: Added tests and refactored the code.
   - sha: 9f4e18a7cc1127e50ab9fd56c35df88d6b97d422
     changeNotes: Initial Version
