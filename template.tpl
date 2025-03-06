@@ -1,19 +1,4 @@
-// Copyright 2019 Google LLC
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-//     https://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-
-___TERMS_OF_SERVICE___
+﻿___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -69,12 +54,11 @@ const getEventData = require('getEventData');
 const getRequestHeader = require('getRequestHeader');
 
 const ttp = getCookieValues('_ttp');
-const domain = getEventData('page_location') || getRequestHeader('referer');
-const subdomainIndex = domain ? computeEffectiveTldPlusOne(domain).split('.').length - 1 : 1;
 
 if (data.returnExisting && ttp.length) return ttp[0];
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const characters =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 let result = '';
 for (let i = 0; i < 27; i++) {
   const randomIndex = generateRandom(0, characters.length - 1);
@@ -222,9 +206,47 @@ ___SERVER_PERMISSIONS___
 
 ___TESTS___
 
-scenarios: []
+scenarios:
+- name: If return existing checkbox is marked, return it the value if it exists in
+    cookie
+  code: |-
+    const expectedResult = 'test';
+    mock('getCookieValues', [expectedResult]);
+
+    mockData.returnExisting = true;
+
+    const variableResult = runCode(mockData);
+
+    assertThat(variableResult).isEqualTo(variableResult);
+- name: If return existing checkbox is marked, generate and return a random value
+    if it doesn't exist in cookie
+  code: |-
+    mockData.returnExisting = true;
+
+    mock('getCookieValues', []);
+
+    const variableResult = runCode(mockData);
+
+    assertThat(variableResult).isString();
+    assertThat(variableResult).hasLength(resultLength);
+- name: If return existing checkbox is NOT marked, return random string
+  code: |-
+    const cookieValue = 'test';
+    mock('getCookieValues', [cookieValue]);
+
+    const variableResult = runCode(mockData);
+
+    assertThat(variableResult).isNotEqualTo(cookieValue);
+    assertThat(variableResult).isString();
+    assertThat(variableResult).hasLength(resultLength);
+setup: |-
+  const mockData = {};
+
+  const resultLength = 27;
 
 
 ___NOTES___
 
 Created on 09/11/2021, 11:46:23
+
+
